@@ -5,20 +5,23 @@ const fs = require('fs') //fs is the file system modules to read and wrtie files
 const crypto = require('crypto') //import the built-in crypto module, to generate secure random number for unique video ID req
 
 function readVideosFile() {
-	const videoList = fs.readFileSync('./data/videos.json')
-	const parsedData = JSON.parse(videoList)
-	return parsedData
+    console.log('gi3')
+	const videoList = fs.readFileSync('./data/videos.json');
+	const parsedData = JSON.parse(videoList);
+	return parsedData;
 }
 
 //use the logMessage middleware for all routes - every request that matches any route defined after 
 //router.use(logMessage) will first pass through the logMessage middleware, which logs the request details, 
 //and then proceed to the appropriate route handler or middleware. 
-router.use(logMessage)
+router.use(logMessage);
 
 // Define a route handler for the root URL ("/videos")
 router.get('/', (req, res) => {
-    // Read videos data from a file (synchronous read for simplicity)
-	const videos = readVideosFile() 
+    // console.log(req)
+    //Read videos data from a file (synchronous read for simplicity)
+	const videos = readVideosFile(); 
+    // console.log(res)
 	res.json(videos) //If the reading is successful, the videos data is sent as a JSON response
 	res.end()
 })
@@ -28,8 +31,10 @@ router.get('/', (req, res) => {
 router.get("/:videoId", (req, res) => {
     // Read the file and find the single video whose id matches the requested id
     const videos = readVideosFile();
+    console.log(videos)
+    console.log(req.params)
     const singleVideo = videos.find((video) => video.id === req.params.videoId);
-
+    console.log('this is ' +singleVideo)
     //check if the video was found 👀
 
     // Respond with the single video

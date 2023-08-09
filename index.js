@@ -4,7 +4,7 @@ const express = require('express'); //create an express app, used to create a se
 const app = express(); //is an instance of express
 
 require('dotenv').config();
-const PORT =process.env.PORT;
+const PORT = process.env.PORT;
 
 const videos = require('./routes/videos') //module that defined routes related to videos.
 const cors = require('cors') //this module enables Cross-Origin Resourse Sharing to allow different origins (domains) to access our server resources
@@ -26,7 +26,7 @@ app.use('/public-images', express.static('./public/images'));
 
 //configure route, the path is the route at which the callback function will be invoked
 // GET method route
-app.get('/', (req, res)=>{
+app.get('/', (req, res) => {
     console.log('Received a get request');
     res.send('GET request to.. the server is running')
 });
@@ -36,6 +36,6 @@ app.use('/videos', videos);
 
 
 //start the server - listen for connection on the given path (all paths on port 8080)
-app.listen(PORT, ()=>{
+app.listen(PORT, () => {
     console.log('Server running on PORT ' + PORT);
 });
