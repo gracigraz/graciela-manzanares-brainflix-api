@@ -2,6 +2,7 @@
 const express = require('express') //express to create the route
 const router = express.Router() //router to create an instance of an express router used to define the routes
 const fs = require('fs') //fs is the file system modules to read and wrtie files
+const crypto = require('crypto') //import the built-in crypto module, to generate secure random number for unique video ID req
 
 function readVideosFile() {
 	const videoList = fs.readFileSync('./data/videos.json')
@@ -29,11 +30,37 @@ router.get("/:videoId", (req, res) => {
     const videos = readVideosFile();
     const singleVideo = videos.find((video) => video.id === req.params.videoId);
 
-    // This might be a good place to check if the athlete was found 👀
+    //check if the video was found 👀
 
     // Respond with the single video
     res.json(singleVideo);
 });
+
+// POST endpoint to add a new video to the list. 
+//A unique id must be negerated for eacg video added
+router.post("/", (req, res) => {    
+    // Make a new video with a unique id
+	console.log(req.body);
+
+    const newVideo = {
+        id: crypto.randomUUID(),
+        title: req.body.title,
+        description: req.body.description,
+        updating: false,
+    };
+
+    // 1. Read the current videos array
+    // 2. Add to the videos array
+    // 3. Write the entire new videos array to the file
+    const videos = readVideosFile();
+    videos.push(newVideo);
+    fs.writeFileSync("./data/videos.json", JSON.stringify(videos));
+
+    // Respond with the athlete that was created
+    res.status(201).json(newVideo);
+});
+
+
 
 
 
