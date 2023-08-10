@@ -28,12 +28,12 @@ router.get('/', (req, res) => {
 
 
 // GET endpoint for an individual video
-router.get("/:videoId", (req, res) => {
+router.get("/:id", (req, res) => {
     // Read the file and find the single video whose id matches the requested id
     const videos = readVideosFile();
-    console.log(videos)
-    console.log(req.params)
-    const singleVideo = videos.find((video) => video.id === req.params.videoId);
+    // console.log(videos)
+    // console.log(req.params)
+    const singleVideo = videos.find((video) => video.id === req.params.id);
     console.log('this is ' +singleVideo)
     //check if the video was found 👀
 
@@ -45,7 +45,8 @@ router.get("/:videoId", (req, res) => {
 //A unique id must be negerated for eacg video added
 router.post("/", (req, res) => {    
     // Make a new video with a unique id
-	console.log(req.body);
+	console.log( 'this is a r' +req);
+    console.log(req.body);
 
     const newVideo = {
         id: crypto.randomUUID(),
