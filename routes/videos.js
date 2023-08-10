@@ -47,12 +47,19 @@ router.post("/", (req, res) => {
     // Make a new video with a unique id
 	console.log( 'this is a r' +req);
     console.log(req.body);
-
+    let randomCommentNum = Math.floor(Math.random() * 4);
+    let randomLikes = Math.floor(Math.random() * 1000000) + 1000;
+    let randomViews = Math.floor(Math.random() * 1000000) + 1000;
     const newVideo = {
         id: crypto.randomUUID(),
         title: req.body.title,
+        channel: `channel of ` + req.body.title,
         description: req.body.description,
-        updating: false,
+        image: "http://localhost:8082/public-images/Upload-video-preview.jpg",
+        views: { randomViews },
+        likes: { randomLikes },
+        comments: { randomCommentNum },
+        timestamp: new Date()
     };
 
     // 1. Read the current videos array
@@ -62,7 +69,7 @@ router.post("/", (req, res) => {
     videos.push(newVideo);
     fs.writeFileSync("./data/videos.json", JSON.stringify(videos));
 
-    // Respond with the athlete that was created
+    // Respond with the video that was created
     res.status(201).json(newVideo);
 });
 
